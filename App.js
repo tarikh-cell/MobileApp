@@ -1,3 +1,4 @@
+//Imports
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NativeRouter, Route, Link, Routes } from "react-router-native";
@@ -9,7 +10,9 @@ import Files from './Files';
 import Register from './Register';
 import Profile from './Profile';
 
+//  App class
 export default function App() {
+  //Variables
   const [value, onChangeValue] = useState(false);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
@@ -20,6 +23,7 @@ export default function App() {
     //Runs only on the first render
   }, [value, dark]);
 
+  //View
   return (
     <NativeRouter>
       <View style={{flex: 1, backgroundColor: dark ? '#fff' : "#000"}}>
@@ -37,6 +41,7 @@ export default function App() {
   );
 }
 
+// Styles
 const styles = StyleSheet.create({
   container: {
   

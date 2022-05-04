@@ -1,3 +1,4 @@
+// Imports
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Pressable } from 'react-native';
@@ -5,7 +6,9 @@ import { Link, useNavigate } from 'react-router-native';
 import axios from 'axios';
 import { EvilIcons } from '@expo/vector-icons';
 
+// Files class
 export default function Files(props) {
+  // Variables
   const [ data, setData ] = useState(null);
   let navigate = useNavigate();
 
@@ -61,6 +64,7 @@ export default function Files(props) {
     );
   }
 
+  // View
   return (
       <View style={styles.container}>
         <StatusBar style="auto" />
@@ -83,6 +87,7 @@ export default function Files(props) {
   );
 }
 
+//Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

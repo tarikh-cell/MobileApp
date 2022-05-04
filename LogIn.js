@@ -1,3 +1,4 @@
+// Imports
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, TextInput, Image } from 'react-native';
@@ -5,7 +6,9 @@ import { Link, useNavigate } from 'react-router-native';
 import axiosInstance from './axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Login Class
 export default function LogIn(props) {
+    // Variables
     const [user, onChangeUser] = React.useState("");
     const [pass, onChangePass] = React.useState("");
     const [error, setError] = React.useState(false);
@@ -45,6 +48,7 @@ export default function LogIn(props) {
           });
       }
   
+    //View
     return (
         <View style={styles.container}>
           <StatusBar style="auto" />

@@ -1,58 +1,49 @@
+// Imports
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, TextInput, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link, useNavigate } from 'react-router-native';
-import axiosInstance from './axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-export default function Register() {
+// Register class
+export default function Register(props) {
+    // Variables
     const [email, onChangeEmail] = React.useState("");
     const [user, onChangeUser] = React.useState("");
     const [pass, onChangePass] = React.useState("");
     const [error, setError] = React.useState(false);
     let navigate = useNavigate();
+    const apiUrl = 'https://django-psql-persistent-workspace.apps.kube.eecs.qmul.ac.uk/api/';
+    const axiosInstance = axios.create({
+      baseURL: apiUrl,
+      timeout: 5000,
+      headers: {Authorization: props.token ? 'JWT ' + props.token: null,
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+      }, });
 
-    const storeData = async (value) => {
-        try {
-            const jAccess = JSON.stringify(value.data.access);
-            await AsyncStorage.setItem('@access_token', jAccess);
-            const jRefresh = JSON.stringify(value.data.refresh);
-            await AsyncStorage.setItem('@refresh_token', jRefresh);
-            const jLog = JSON.stringify(true);
-            await AsyncStorage.setItem('@loggedIn', jLog);
-            } catch (e) {
-            // saving error
-            }
-        }
-
-    const getData = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem('@access_token');
-            return jsonValue != null ? JSON.parse(jsonValue) : null;
-        } catch(e) {
-            // error reading value
-        }
+    async function save(key, value) {
+      await AsyncStorage.setItem(key, value);
     }
 
     async function handleClick(user, pass) {
         axiosInstance
-            .post(`token/`, {
-                user_name: user,
-                password: pass,
-            })
+        .post(`user/register/`, {
+          email: email,
+          user_name: user,
+          password: pass,
+      })
             .then((res) => {
-                storeData(res);
-                axiosInstance.defaults.headers['Authorization'] =
-                    'JWT ' + getData;
-                console.log(res);
                 
-                navigate("/");
+                navigate("/Login");
             }).catch((err) => {
               setError(true);
             });
       }
   
+    // View
     return (
         <View style={styles.container}>
           <StatusBar style="auto" />
@@ -68,6 +59,7 @@ export default function Register() {
     );
 }
 
+// Styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
